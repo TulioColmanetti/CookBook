@@ -1,7 +1,9 @@
 package com.letscode.cookBook.view;
 
 import com.letscode.cookBook.domain.Receita;
+import com.letscode.cookBook.domain.Rendimento;
 import com.letscode.cookBook.enums.Categoria;
+import com.letscode.cookBook.enums.TipoRendimento;
 
 import java.util.Scanner;
 
@@ -48,6 +50,27 @@ public class NovaReceitaView {
         return tempoPreparo;
     }
 
+    public Rendimento askRendimento() {
+        System.out.println("Qual o tipo de rendimento da receita?");
+        for (TipoRendimento auxTipoRend : TipoRendimento.values()) {
+            System.out.printf("%d - %s\n", auxTipoRend.ordinal(), auxTipoRend.name());
+        }
+        int tipoRend = scanner.nextInt();
+
+        System.out.println("Qual a quantidade de rendimento da receita?");
+        int qtdRend = scanner.nextInt();
+
+        if (tipoRend < 0 || tipoRend >= TipoRendimento.values().length || qtdRend <= 0) {
+            if (tipoRend < 0 || tipoRend >= TipoRendimento.values().length)
+                System.out.println("Tipo de Rendimento inválida!");
+            if (qtdRend <= 0)
+                System.out.println("Quantidade de Rendimento inválida!");
+            askRendimento();
+        }
+
+        return new Rendimento(qtdRend, TipoRendimento.values()[tipoRend]);
+    }
+
     public Receita create() {
         this.nome = askNome();
         this.categoria = askCategoria();
@@ -55,6 +78,7 @@ public class NovaReceitaView {
         this.receita = new Receita(nome, categoria);
 
         this.receita.setTempoPreparo(askTempoPreparo());
+        this.receita.setRendimento(askRendimento());
 
         return receita;
     }
