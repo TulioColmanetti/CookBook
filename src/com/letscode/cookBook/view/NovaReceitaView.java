@@ -38,11 +38,24 @@ public class NovaReceitaView {
         return Categoria.values()[categoria];
     }
 
+    public int askTempoPreparo() {
+        System.out.println("Qual o tempo de preparo da receita?");
+        int tempoPreparo = scanner.nextInt();
+        if (tempoPreparo <= 0) {
+            System.out.println("Tempo de Preparo inválido!");
+            askTempoPreparo();
+        }
+        return tempoPreparo;
+    }
+
     public Receita create() {
         this.nome = askNome();
         this.categoria = askCategoria();
 
         this.receita = new Receita(nome, categoria);
+
+        this.receita.setTempoPreparo(askTempoPreparo());
+
         return receita;
     }
 }
