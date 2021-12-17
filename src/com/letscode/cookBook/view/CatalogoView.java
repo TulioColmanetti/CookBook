@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CatalogoView {
     private final Receita NONE_FOUND = new Receita("Nenhuma receita encontrada", Categoria.PRATO_UNICO);
     private Receita receita;
-    Catalogo controller;
+    private Catalogo controller = new Catalogo();
     private int curIndex = -1;
 
     private void showHeader() {
@@ -40,6 +40,7 @@ public class CatalogoView {
 
     private void add() {
         //TODO: Implement Add
+        System.out.println("Add");
     }
 
     private void del() {
