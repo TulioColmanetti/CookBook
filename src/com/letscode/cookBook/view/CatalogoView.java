@@ -53,6 +53,13 @@ public class CatalogoView {
         }
     }
 
+    private void search() {
+        ScreenUtil.printTextLine("Digite o nome da receita a ser pesquisada: ", 80);
+        String searchName = new Scanner(System.in).next();
+        Receita receitaFound = this.controller.getReceita(searchName);
+        this.receita = receitaFound;
+    }
+
     public void show() {
         ScreenUtil.clearScreen();
         showHeader();
@@ -82,7 +89,7 @@ public class CatalogoView {
                     del();
                     break;
                 case "S":
-                    //TODO: Implement Search
+                    search();
                     break;
                 default:
                     ScreenUtil.printTextLine("Opção inválida", 80);
