@@ -39,13 +39,17 @@ public class CatalogoView {
     }
 
     private void add() {
-        //TODO: Implement Add
-        System.out.println("Add");
+        Receita createdReceita = new NovaReceitaView().create();
+        this.controller.add(createdReceita);
+        this.receita = createdReceita;
+        curIndex++;
     }
 
     private void del() {
         if (curIndex >= 0) {
             controller.del(receita.getNome());
+            this.receita = null;
+            curIndex--;
         }
     }
 
@@ -83,6 +87,8 @@ public class CatalogoView {
                     ScreenUtil.printTextLine("Opção inválida", 80);
                     ScreenUtil.printTextLine("#: ", 80);
             }
+            ScreenUtil.clearScreen();
+            this.show();
         } while (true);
     }
 }
