@@ -54,6 +54,7 @@ public class CatalogoView {
     }
 
     public void show() {
+        ScreenUtil.clearScreen();
         showHeader();
         showReceita(receita == null ? NONE_FOUND : receita);
         ScreenUtil.printTextLine("", 80, true, '=');
@@ -87,7 +88,6 @@ public class CatalogoView {
                     ScreenUtil.printTextLine("Opção inválida", 80);
                     ScreenUtil.printTextLine("#: ", 80);
             }
-            ScreenUtil.clearScreen();
             this.show();
         } while (true);
     }
