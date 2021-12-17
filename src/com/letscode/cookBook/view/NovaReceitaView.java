@@ -1,8 +1,10 @@
 package com.letscode.cookBook.view;
 
+import com.letscode.cookBook.domain.Ingrediente;
 import com.letscode.cookBook.domain.Receita;
 import com.letscode.cookBook.domain.Rendimento;
 import com.letscode.cookBook.enums.Categoria;
+import com.letscode.cookBook.enums.TipoMedida;
 import com.letscode.cookBook.enums.TipoRendimento;
 
 import java.util.Scanner;
@@ -71,6 +73,20 @@ public class NovaReceitaView {
         return new Rendimento(qtdRend, TipoRendimento.values()[tipoRend]);
     }
 
+    public Ingrediente[] askIngredientes() {
+        System.out.println("Quais os ingredientes da receita?");
+        Ingrediente[] ingredientes = new Ingrediente[1];
+        ingredientes[0] = new Ingrediente("IngredienteTeste", 10, TipoMedida.values()[0]);
+        return ingredientes;
+    }
+
+    public String[] askModoPreparo() {
+        System.out.println("Qual o modo de preparo da receita?");
+        String[] modoDePreparo = new String[1];
+        modoDePreparo[0] = "Modo de preparo 1";
+        return modoDePreparo;
+    }
+
     public Receita create() {
         this.nome = askNome();
         this.categoria = askCategoria();
@@ -79,6 +95,8 @@ public class NovaReceitaView {
 
         this.receita.setTempoPreparo(askTempoPreparo());
         this.receita.setRendimento(askRendimento());
+        this.receita.setIngredientes(askIngredientes());
+        this.receita.setModoPreparo(askModoPreparo());
 
         return receita;
     }
