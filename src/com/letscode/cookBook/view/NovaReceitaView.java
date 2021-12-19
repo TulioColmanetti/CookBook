@@ -155,17 +155,22 @@ public class NovaReceitaView {
     }
 
     public Receita create() {
+        try {
+            askNome();
+            askCategoria();
 
-        askNome();
-        askCategoria();
+            this.receita = new Receita(nome, categoria);
 
-        this.receita = new Receita(nome, categoria);
+            askTempoPreparo();
+            askRendimento();
+            askIngredientes();
+            askModoPreparo();
 
-        askTempoPreparo();
-        askRendimento();
-        askIngredientes();
-        askModoPreparo();
-
-        return receita;
+            return receita;
+        } catch (Exception e) {
+            System.out.println("Falha ao criar nova receita!");
+            System.out.println("Erro: " + e.getMessage());
+            return null;
+        }
     }
 }

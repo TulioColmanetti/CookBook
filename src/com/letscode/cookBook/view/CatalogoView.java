@@ -60,9 +60,11 @@ public class CatalogoView {
 
     private void add() {
         Receita createdReceita = new NovaReceitaView().create();
-        this.controller.add(createdReceita);
-        this.receita = createdReceita;
-        curIndex++;
+        if (createdReceita != null) {
+            this.controller.add(createdReceita);
+            this.receita = createdReceita;
+            curIndex++;
+        }
     }
 
     private void del() {
