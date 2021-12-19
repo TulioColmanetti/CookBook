@@ -46,31 +46,39 @@ public class NovaReceitaView {
         System.out.println("Qual o tempo de preparo da receita?");
         int tempoPreparo = scanner.nextInt();
         if (tempoPreparo <= 0) {
-            System.out.println("Tempo de Preparo inválido!");
+            System.out.println("Tempo de preparo inválido!");
             askTempoPreparo();
         }
         return tempoPreparo;
     }
 
-    public Rendimento askRendimento() {
+    private TipoRendimento askTipoRendimento() {
         System.out.println("Qual o tipo de rendimento da receita?");
         for (TipoRendimento auxTipoRend : TipoRendimento.values()) {
             System.out.printf("%d - %s\n", auxTipoRend.ordinal(), auxTipoRend.name());
         }
         int tipoRend = scanner.nextInt();
 
+        if (tipoRend < 0 || tipoRend >= TipoRendimento.values().length) {
+            System.out.println("Tipo de rendimento inválida!");
+            askTipoRendimento();
+        }
+        return TipoRendimento.values()[tipoRend];
+    }
+
+    private int askQtdRendimento(){
         System.out.println("Qual a quantidade de rendimento da receita?");
         int qtdRend = scanner.nextInt();
 
-        if (tipoRend < 0 || tipoRend >= TipoRendimento.values().length || qtdRend <= 0) {
-            if (tipoRend < 0 || tipoRend >= TipoRendimento.values().length)
-                System.out.println("Tipo de Rendimento inválida!");
-            if (qtdRend <= 0)
-                System.out.println("Quantidade de Rendimento inválida!");
-            askRendimento();
+        if (qtdRend <= 0) {
+            System.out.println("Quantidade de rendimento inválida!");
+            askQtdRendimento();
         }
+        return qtdRend;
+    }
 
-        return new Rendimento(qtdRend, TipoRendimento.values()[tipoRend]);
+    public Rendimento askRendimento() {
+        return new Rendimento(askQtdRendimento(), askTipoRendimento());
     }
 
     public Ingrediente[] askIngredientes() {
