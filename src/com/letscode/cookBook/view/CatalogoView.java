@@ -22,6 +22,20 @@ public class CatalogoView {
         ScreenUtil.printTextLine("", 80, true, '=');
     }
 
+    private void renderMenu() {
+        ScreenUtil.clearScreen();
+        showHeader();
+        showReceita(receita == null ? NONE_FOUND : receita);
+        ScreenUtil.printTextLine("", 80, true, '=');
+        ScreenUtil.printTextLine("P: Receita anterior", 80, true);
+        ScreenUtil.printTextLine("N: Receita seguinte", 80, true);
+        ScreenUtil.printTextLine("+: Adicionar nova receita", 80, true);
+        ScreenUtil.printTextLine("-: Remover receita", 80, true);
+        ScreenUtil.printTextLine("S: Pesquisar receita", 80, true);
+        ScreenUtil.printTextLine("", 80, true, '=');
+        ScreenUtil.printTextLine("#: ", 80);
+    }
+
     private void showReceita(Receita receita) {
         System.out.println(receita.toString());
     }
@@ -61,17 +75,8 @@ public class CatalogoView {
     }
 
     public void show() {
-        ScreenUtil.clearScreen();
-        showHeader();
-        showReceita(receita == null ? NONE_FOUND : receita);
-        ScreenUtil.printTextLine("", 80, true, '=');
-        ScreenUtil.printTextLine("P: Receita anterior", 80, true);
-        ScreenUtil.printTextLine("N: Receita seguinte", 80, true);
-        ScreenUtil.printTextLine("+: Adicionar nova receita", 80, true);
-        ScreenUtil.printTextLine("-: Remover receita", 80, true);
-        ScreenUtil.printTextLine("S: Pesquisar receita", 80, true);
-        ScreenUtil.printTextLine("", 80, true, '=');
-        ScreenUtil.printTextLine("#: ", 80);
+        renderMenu();
+        
         String option;
         do {
             option = new Scanner(System.in).next();
@@ -95,7 +100,7 @@ public class CatalogoView {
                     ScreenUtil.printTextLine("Opção inválida", 80);
                     ScreenUtil.printTextLine("#: ", 80);
             }
-            this.show();
+            renderMenu();
         } while (true);
     }
 }
