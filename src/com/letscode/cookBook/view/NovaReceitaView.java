@@ -14,45 +14,46 @@ public class NovaReceitaView {
     Receita receita;
     String nome;
     Categoria categoria;
+    TipoRendimento tipoRendimento;
+    int qtdRendimento;
 
     public NovaReceitaView() {
         this.scanner = new Scanner(System.in);
     }
 
-    public String askNome() {
+    public void askNome() {
         System.out.println("Qual o nome da receita?");
-        nome = scanner.nextLine();
+        this.nome = scanner.nextLine();
         if (nome.isBlank()) {
             System.out.println("Nome inválido!");
             askNome();
         }
-        return nome;
     }
 
-    public Categoria askCategoria() {
+    public void askCategoria() {
         System.out.println("Qual a categoria da receita?");
         for (Categoria cat : Categoria.values()) {
             System.out.printf("%d - %s\n", cat.ordinal(), cat.name());
         }
-        int categoria = scanner.nextInt();
-        if (categoria < 0 || categoria >= Categoria.values().length) {
+        int catIndex = scanner.nextInt();
+        if (catIndex < 0 || catIndex >= Categoria.values().length) {
             System.out.println("Categoria inválida!");
             askCategoria();
-        }
-        return Categoria.values()[categoria];
+        } else
+            this.categoria = Categoria.values()[catIndex];
     }
 
-    public int askTempoPreparo() {
+    public void askTempoPreparo() {
         System.out.println("Qual o tempo de preparo da receita?");
         int tempoPreparo = scanner.nextInt();
         if (tempoPreparo <= 0) {
             System.out.println("Tempo de preparo inválido!");
             askTempoPreparo();
-        }
-        return tempoPreparo;
+        } else
+            this.receita.setTempoPreparo(tempoPreparo);
     }
 
-    private TipoRendimento askTipoRendimento() {
+    private void askTipoRendimento() {
         System.out.println("Qual o tipo de rendimento da receita?");
         for (TipoRendimento auxTipoRend : TipoRendimento.values()) {
             System.out.printf("%d - %s\n", auxTipoRend.ordinal(), auxTipoRend.name());
@@ -62,49 +63,52 @@ public class NovaReceitaView {
         if (tipoRend < 0 || tipoRend >= TipoRendimento.values().length) {
             System.out.println("Tipo de rendimento inválida!");
             askTipoRendimento();
-        }
-        return TipoRendimento.values()[tipoRend];
+        } else
+            this.tipoRendimento = TipoRendimento.values()[tipoRend];
     }
 
-    private int askQtdRendimento(){
+    private void askQtdRendimento(){
         System.out.println("Qual a quantidade de rendimento da receita?");
         int qtdRend = scanner.nextInt();
 
         if (qtdRend <= 0) {
             System.out.println("Quantidade de rendimento inválida!");
             askQtdRendimento();
-        }
-        return qtdRend;
+        } else
+            this.qtdRendimento = qtdRend;
     }
 
-    public Rendimento askRendimento() {
-        return new Rendimento(askQtdRendimento(), askTipoRendimento());
+    public void askRendimento() {
+        askTipoRendimento();
+        askQtdRendimento();
+        this.receita.setRendimento(new Rendimento(this.qtdRendimento, this.tipoRendimento));
     }
 
-    public Ingrediente[] askIngredientes() {
+    public void askIngredientes() {
         System.out.println("Quais os ingredientes da receita?");
         Ingrediente[] ingredientes = new Ingrediente[1];
         ingredientes[0] = new Ingrediente("IngredienteTeste", 10, TipoMedida.values()[0]);
-        return ingredientes;
+        this.receita.setIngredientes(ingredientes);
     }
 
-    public String[] askModoPreparo() {
+    public void askModoPreparo() {
         System.out.println("Qual o modo de preparo da receita?");
         String[] modoDePreparo = new String[1];
         modoDePreparo[0] = "Modo de preparo 1";
-        return modoDePreparo;
+        this.receita.setModoPreparo(modoDePreparo);
     }
 
     public Receita create() {
-        this.nome = askNome();
-        this.categoria = askCategoria();
+
+        askNome();
+        askCategoria();
 
         this.receita = new Receita(nome, categoria);
 
-        this.receita.setTempoPreparo(askTempoPreparo());
-        this.receita.setRendimento(askRendimento());
-        this.receita.setIngredientes(askIngredientes());
-        this.receita.setModoPreparo(askModoPreparo());
+        askTempoPreparo();
+        askRendimento();
+        askIngredientes();
+        askModoPreparo();
 
         return receita;
     }
