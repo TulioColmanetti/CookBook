@@ -99,7 +99,7 @@ public class NovaReceitaView {
                     System.out.printf("Qual o nome do ingrediente %d?\n", i+1);
                     ingredNome = scanner.next();
 
-                    if (nome.isBlank())
+                    if (ingredNome.isBlank())
                         System.out.println("Nome do ingrediente inválido!");
                 } while (ingredNome.isBlank());
 
@@ -132,10 +132,26 @@ public class NovaReceitaView {
     }
 
     public void askModoPreparo() {
-        System.out.println("Qual o modo de preparo da receita?");
-        String[] modoDePreparo = new String[1];
-        modoDePreparo[0] = "Modo de preparo 1";
-        this.receita.setModoPreparo(modoDePreparo);
+        System.out.println("Quantas etapas o modo de preparo da receita possui?");
+        int qtdEtapas = scanner.nextInt();
+        if (qtdEtapas <= 0) {
+            System.out.println("Quantidade de etapas inválida!");
+            askIngredientes();
+        } else {
+            String[] etapasModoDePreparo = new String[qtdEtapas];
+
+            for (int i = 0; i < qtdEtapas; i++) {
+                do {
+                    System.out.printf("Qual a etapa número %d do modo de preparo?\n", i+1);
+                    etapasModoDePreparo[i] = scanner.next();
+
+                    if (etapasModoDePreparo[i].isBlank())
+                        System.out.println("Etapa do modo de preparo inválida!");
+                } while (etapasModoDePreparo[i].isBlank());
+            }
+
+            this.receita.setModoPreparo(etapasModoDePreparo);
+        }
     }
 
     public Receita create() {
