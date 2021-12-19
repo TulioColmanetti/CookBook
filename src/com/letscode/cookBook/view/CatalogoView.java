@@ -41,15 +41,21 @@ public class CatalogoView {
     }
 
     private void showAnterior() {
-        if (curIndex > 0) {
-            this.receita = controller.getReceita(curIndex - 1);
-            if (receita != null) curIndex--;
+        if (curIndex >= 0) {
+            Receita retrievedReceita = controller.getReceita(curIndex - 1);
+            if (retrievedReceita != null) {
+                this.receita = retrievedReceita;
+                curIndex--;
+            }
         }
     }
 
     private void showSeguinte() {
-        this.receita = controller.getReceita(curIndex + 1);
-        if (receita != null) curIndex++;
+        Receita retrievedReceita = controller.getReceita(curIndex + 1);
+        if (retrievedReceita != null) {
+            this.receita = retrievedReceita;
+            curIndex++;
+        }
     }
 
     private void add() {
@@ -70,15 +76,16 @@ public class CatalogoView {
     private void search() {
         ScreenUtil.printTextLine("Digite o nome da receita a ser pesquisada: ", 80);
         String searchName = new Scanner(System.in).next();
-        Receita receitaFound = this.controller.getReceita(searchName);
-        this.receita = receitaFound;
+        this.receita = this.controller.getReceita(searchName);
+        if (this.receita == null)
+            curIndex = -1;
     }
 
     public void show() {
-        renderMenu();
-        
         String option;
         do {
+            renderMenu();
+
             option = new Scanner(System.in).next();
             switch (option.toUpperCase()) {
                 case "P":
@@ -100,7 +107,6 @@ public class CatalogoView {
                     ScreenUtil.printTextLine("Opção inválida", 80);
                     ScreenUtil.printTextLine("#: ", 80);
             }
-            renderMenu();
         } while (true);
     }
 }
