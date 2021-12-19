@@ -85,10 +85,50 @@ public class NovaReceitaView {
     }
 
     public void askIngredientes() {
-        System.out.println("Quais os ingredientes da receita?");
-        Ingrediente[] ingredientes = new Ingrediente[1];
-        ingredientes[0] = new Ingrediente("IngredienteTeste", 10, TipoMedida.values()[0]);
-        this.receita.setIngredientes(ingredientes);
+        System.out.println("Quantos ingredientes a receita possui?");
+        int qtdIngredientes = scanner.nextInt();
+        if (qtdIngredientes <= 0) {
+            System.out.println("Quantidade de ingredientes inválida!");
+            askIngredientes();
+        } else {
+            Ingrediente[] ingredientes = new Ingrediente[qtdIngredientes];
+
+            for (int i = 0; i < qtdIngredientes; i++) {
+                String ingredNome = "";
+                do {
+                    System.out.printf("Qual o nome do ingrediente %d?\n", i+1);
+                    ingredNome = scanner.next();
+
+                    if (nome.isBlank())
+                        System.out.println("Nome do ingrediente inválido!");
+                } while (ingredNome.isBlank());
+
+                int ingredTipoMedidaIndex = -1;
+                do {
+                    System.out.printf("Qual o tipo de medida do ingrediente %d?\n", i+1);
+                    for (TipoMedida med : TipoMedida.values()) {
+                        System.out.printf("%d - %s\n", med.ordinal(), med.name());
+                    }
+                    ingredTipoMedidaIndex = scanner.nextInt();
+
+                    if (ingredTipoMedidaIndex < 0 || ingredTipoMedidaIndex >= TipoMedida.values().length)
+                        System.out.println("Tipo de medida do ingrediente inválida!");
+                } while (ingredTipoMedidaIndex < 0 || ingredTipoMedidaIndex >= TipoMedida.values().length);
+
+                double ingredQtd = -1;
+                do {
+                    System.out.printf("Qual a quantidade do ingrediente %d?\n", i+1);
+                    ingredQtd = scanner.nextDouble();
+
+                    if (ingredQtd <= 0)
+                        System.out.println("Quantidade do ingrediente inválida!");
+                } while (ingredQtd <= 0);
+
+                ingredientes[i] = new Ingrediente(ingredNome, ingredQtd, TipoMedida.values()[ingredTipoMedidaIndex]);
+            }
+
+            this.receita.setIngredientes(ingredientes);
+        }
     }
 
     public void askModoPreparo() {
